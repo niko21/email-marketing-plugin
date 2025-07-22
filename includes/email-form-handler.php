@@ -6,14 +6,25 @@ function handle_email_form_submission()
 {
     if (!isset($_POST['email_form_submit']) || !isset($_POST['form_id'])) return;
 
+    if (
+        !isset($_POST['email_form_nonce_field']) ||
+        !wp_verify_nonce($_POST['email_form_nonce_field'], 'email_form_nonce_action')
+    ) {
+        return;
+    }
+
     global $wpdb;
 
     $form_id = intval($_POST['form_id']);
-    $modulo = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}email_marketing_forms WHERE id = %d", $form_id));
+    $modulo = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM {$wpdb->prefix}email_marketing_forms WHERE id = %d",
+        $form_id
+    ));
+
     if (!$modulo) return;
 
     $campi = json_decode($modulo->campi);
-    $dati = ['form_id' => $form_id]; // 🔁 aggiunto il campo form_id
+    $dati = ['form_id' => $form_id];
 
     foreach ($campi as $campo) {
         $val = sanitize_text_field($_POST[$campo] ?? '');

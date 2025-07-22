@@ -2,6 +2,10 @@
 
 function email_marketing_subscribers_page()
 {
+    if (!current_user_can('manage_options')) {
+        wp_die('Accesso negato.');
+    }
+
     global $wpdb;
 
     $forms_table = $wpdb->prefix . 'email_marketing_forms';
@@ -21,7 +25,7 @@ function email_marketing_subscribers_page()
             <select name="form_id" id="form_id" onchange="this.form.submit()">
                 <option value="0">-- Tutti i moduli --</option>
                 <?php foreach ($moduli as $mod): ?>
-                    <option value="<?php echo $mod->id; ?>" <?php selected($form_id, $mod->id); ?>>
+                    <option value="<?php echo esc_attr($mod->id); ?>" <?php selected($form_id, $mod->id); ?>>
                         <?php echo esc_html($mod->nome_form); ?>
                     </option>
                 <?php endforeach; ?>
@@ -40,9 +44,13 @@ function email_marketing_subscribers_page()
             <tbody>
                 <?php
                 $query = "SELECT * FROM $subs_table";
+                $params = [];
+
                 if ($form_id > 0) {
-                    $query .= " WHERE form_id = $form_id";
+                    $query .= " WHERE form_id = %d";
+                    $query = $wpdb->prepare($query, $form_id);
                 }
+
                 $iscritti = $wpdb->get_results($query);
 
                 if ($iscritti) :
