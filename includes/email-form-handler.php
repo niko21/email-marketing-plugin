@@ -2,8 +2,7 @@
 
 add_action('init', 'handle_email_form_submission');
 
-function handle_email_form_submission()
-{
+function handle_email_form_submission() {
     if (!isset($_POST['email_form_submit']) || !isset($_POST['form_id'])) return;
 
     if (
@@ -35,4 +34,20 @@ function handle_email_form_submission()
     $wpdb->insert($wpdb->prefix . 'email_marketing', array_merge($dati, [
         'data_iscrizione' => current_time('mysql')
     ]));
+
+    // === Invio automatico email di benvenuto ===
+    if (!empty($dati['email'])) {
+        $to = sanitize_email($dati['email']);
+        $subject = 'Benvenuto nella nostra newsletter di Maia Car!';
+
+        $message = '<html><body>';
+        $message .= '<h2>Ciao ' . esc_html($dati['nome'] ?? '') . '!</h2>';
+        $message .= '<p>Grazie per esserti iscritto alla nostra newsletter. Sarai aggiornato con tutte le nostre novità!</p>';
+        $message .= '<p>A presto,<br>Il team di maiacar.it</p>';
+        $message .= '</body></html>';
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        wp_mail($to, $subject, $message, $headers);
+    }
 }
