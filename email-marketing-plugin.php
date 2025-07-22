@@ -2,7 +2,7 @@
 /*
 Plugin Name: Email Marketing Plugin
 Description: Un plugin semplice per raccogliere Nome, Cognome ed Email e inviare aggiornamenti sui nuovi post.
-Version: 2.0
+Version: 3.0
 Author: Nicolò Silanos
 Author URI: https://ns-developer.it
 Text Domain: email-marketing-plugin
