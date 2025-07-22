@@ -26,7 +26,6 @@ function email_marketing_handle_csv_export() {
         wp_die('Nessun dato da esportare.', 'Errore esportazione');
     }
 
-    // Pulisce l'output buffer per evitare conflitti con header()
     while (ob_get_level()) ob_end_clean();
 
     header('Content-Type: text/csv; charset=utf-8');
@@ -46,6 +45,13 @@ function email_marketing_subscribers_page() {
 
     $forms_table = $wpdb->prefix . 'email_marketing_forms';
     $subs_table  = $wpdb->prefix . 'email_marketing';
+
+    // === Elimina iscritto se richiesto ===
+    if (isset($_GET['delete_subscriber']) && current_user_can('manage_options')) {
+        $delete_id = intval($_GET['delete_subscriber']);
+        $wpdb->delete($subs_table, ['id' => $delete_id]);
+        echo '<div class="notice notice-success is-dismissible"><p>Iscritto eliminato con successo.</p></div>';
+    }
 
     $form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
     $moduli = $wpdb->get_results("SELECT * FROM $forms_table");
@@ -78,6 +84,7 @@ function email_marketing_subscribers_page() {
                     <th>Cognome</th>
                     <th>Email</th>
                     <th>Data Iscrizione</th>
+                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,15 +97,17 @@ function email_marketing_subscribers_page() {
 
                 if ($iscritti) :
                     foreach ($iscritti as $riga) :
-                        echo "<tr>
-                            <td>" . esc_html($riga->nome) . "</td>
-                            <td>" . esc_html($riga->cognome) . "</td>
-                            <td>" . esc_html($riga->email) . "</td>
-                            <td>" . esc_html($riga->data_iscrizione) . "</td>
-                        </tr>";
+                        $delete_url = esc_url(admin_url('admin.php?page=email-marketing-iscritti&form_id=' . $form_id . '&delete_subscriber=' . $riga->id));
+                        echo '<tr>
+                            <td>' . esc_html($riga->nome) . '</td>
+                            <td>' . esc_html($riga->cognome) . '</td>
+                            <td>' . esc_html($riga->email) . '</td>
+                            <td>' . esc_html($riga->data_iscrizione) . '</td>
+                            <td><a href="' . $delete_url . '" class="button button-small" onclick="return confirm(\'Sei sicuro di voler eliminare questo iscritto?\');">Elimina</a></td>
+                        </tr>';
                     endforeach;
                 else :
-                    echo '<tr><td colspan="4">Nessun iscritto trovato.</td></tr>';
+                    echo '<tr><td colspan="5">Nessun iscritto trovato.</td></tr>';
                 endif;
                 ?>
             </tbody>
