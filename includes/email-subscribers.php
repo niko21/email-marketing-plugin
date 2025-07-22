@@ -7,18 +7,22 @@ function email_marketing_subscribers_page()
     $forms_table = $wpdb->prefix . 'email_marketing_forms';
     $subs_table  = $wpdb->prefix . 'email_marketing';
 
-    $moduli = $wpdb->get_results("SELECT * FROM $forms_table");
-
     $form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
 
-    // === Esportazione CSV sicura ===
-    if (isset($_GET['action']) && $_GET['action'] === 'export_csv' && $form_id > 0 && current_user_can('manage_options')) {
+    // === ESPORTAZIONE CSV - DEVE ESSERE IN CIMA ===
+    if (
+        isset($_GET['action']) && $_GET['action'] === 'export_csv' &&
+        $form_id > 0 &&
+        current_user_can('manage_options')
+    ) {
         $iscritti = $wpdb->get_results(
             $wpdb->prepare("SELECT nome, cognome, email, data_iscrizione FROM $subs_table WHERE form_id = %d", $form_id),
             ARRAY_A
         );
 
         if ($iscritti) {
+            if (ob_get_length()) ob_end_clean();
+
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename="iscritti_modulo_' . $form_id . '.csv"');
             $output = fopen('php://output', 'w');
@@ -32,6 +36,8 @@ function email_marketing_subscribers_page()
             wp_die('Nessun dato da esportare.', 'Errore esportazione');
         }
     }
+
+    $moduli = $wpdb->get_results("SELECT * FROM $forms_table");
 
 ?>
     <div class="wrap">
