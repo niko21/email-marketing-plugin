@@ -22,8 +22,8 @@ function render_dynamic_email_form($atts)
 
     ob_start(); ?>
     <form method="post" action="">
-        <input type="hidden" name="form_id" value="<?php echo esc_attr($id); ?>">
         <?php wp_nonce_field('email_form_nonce_action', 'email_form_nonce_field'); ?>
+        <input type="hidden" name="form_id" value="<?php echo esc_attr($id); ?>">
         <?php foreach ($campi as $campo): ?>
             <label><?php echo ucfirst(esc_html($campo)); ?></label><br>
             <input type="<?php echo ($campo === 'email') ? 'email' : 'text'; ?>" name="<?php echo esc_attr($campo); ?>" required><br><br>
