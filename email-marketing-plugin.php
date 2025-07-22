@@ -7,22 +7,32 @@ Author: Nicolò Silanos
 Author URI: https://ns-developer.it
 Text Domain: email-marketing-plugin
 */
+
 if (!defined('ABSPATH')) exit;
 
 require_once plugin_dir_path(__FILE__) . 'includes/admin-interface.php';
-require_once plugin_dir_path(__FILE__) . 'includes/email-subscribers.php'; // ✅ nuovo
+require_once plugin_dir_path(__FILE__) . 'includes/email-subscribers.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-form.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-form-handler.php';
 
 register_activation_hook(__FILE__, 'email_marketing_create_tables');
 
-function email_marketing_create_tables() {
+function email_marketing_create_tables()
+{
     global $wpdb;
     $charset_collate = $wpdb->get_charset_collate();
 
-    $table1 = $wpdb->prefix . 'email_marketing';
-    $sql1 = "CREATE TABLE $table1 (
+    $email_table = $wpdb->prefix . 'email_marketing';
+    $forms_table = $wpdb->prefix . 'email_marketing_forms';
+
+    // Rimuove le tabelle esistenti per pulizia (solo per reinstallazione controllata)
+    $wpdb->query("DROP TABLE IF EXISTS $email_table");
+    $wpdb->query("DROP TABLE IF EXISTS $forms_table");
+
+    // Tabella iscritti
+    $sql1 = "CREATE TABLE $email_table (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
+        form_id mediumint(9) NOT NULL,
         nome varchar(100),
         cognome varchar(100),
         email varchar(100) NOT NULL,
@@ -30,8 +40,8 @@ function email_marketing_create_tables() {
         PRIMARY KEY (id)
     ) $charset_collate;";
 
-    $table2 = $wpdb->prefix . 'email_marketing_forms';
-    $sql2 = "CREATE TABLE $table2 (
+    // Tabella moduli configurabili
+    $sql2 = "CREATE TABLE $forms_table (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         nome_form varchar(100) NOT NULL,
         campi text NOT NULL,
