@@ -53,6 +53,14 @@ function email_marketing_subscribers_page() {
         echo '<div class="notice notice-success is-dismissible"><p>Iscritto eliminato con successo.</p></div>';
     }
 
+    // === Elimina modulo se richiesto ===
+    if (isset($_GET['delete_form']) && current_user_can('manage_options')) {
+        $delete_form_id = intval($_GET['delete_form']);
+        $wpdb->delete($forms_table, ['id' => $delete_form_id]);
+        $wpdb->delete($subs_table, ['form_id' => $delete_form_id]);
+        echo '<div class="notice notice-success is-dismissible"><p>Modulo eliminato con successo.</p></div>';
+    }
+
     $form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
     $moduli = $wpdb->get_results("SELECT * FROM $forms_table");
 
@@ -75,6 +83,7 @@ function email_marketing_subscribers_page() {
 
         <?php if ($form_id): ?>
             <a href="<?php echo esc_url(admin_url('admin.php?page=email-marketing-iscritti&form_id=' . $form_id . '&action=export_csv')); ?>" class="button button-primary" style="margin-bottom: 20px;">Esporta CSV</a>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=email-marketing-iscritti&delete_form=' . $form_id)); ?>" class="button button-secondary" style="margin-bottom: 20px;" onclick="return confirm('Sei sicuro di voler eliminare questo modulo e tutti i suoi iscritti?');">Elimina Modulo</a>
         <?php endif; ?>
 
         <table class="widefat">
