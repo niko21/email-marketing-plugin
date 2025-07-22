@@ -13,7 +13,7 @@ function handle_email_form_submission()
     if (!$modulo) return;
 
     $campi = json_decode($modulo->campi);
-    $dati = [];
+    $dati = ['form_id' => $form_id]; // 🔁 aggiunto il campo form_id
 
     foreach ($campi as $campo) {
         $val = sanitize_text_field($_POST[$campo] ?? '');

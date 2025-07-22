@@ -2,8 +2,7 @@
 
 add_action('admin_menu', 'email_marketing_add_admin_menu');
 
-function email_marketing_add_admin_menu()
-{
+function email_marketing_add_admin_menu() {
     add_menu_page(
         'Email Marketing',
         'Email Marketing',
@@ -12,6 +11,15 @@ function email_marketing_add_admin_menu()
         'email_marketing_admin_page',
         'dashicons-email',
         26
+    );
+
+    add_submenu_page(
+        'email-marketing',
+        'Iscritti',
+        'Iscritti',
+        'manage_options',
+        'email-marketing-iscritti',
+        'email_marketing_subscribers_page'
     );
 }
 
