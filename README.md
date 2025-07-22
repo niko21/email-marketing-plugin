@@ -9,7 +9,7 @@ Un semplice plugin WordPress per raccogliere **Nome**, **Cognome** ed **Email**,
 * ✅ Form di iscrizione via shortcode `[email_marketing_form]`
 * ✅ Integrazione con `wp_mail()` per l'invio delle notifiche
 * ✅ Protezione da SPAM con validazione e nonce
-* ✅ Pannello di amministrazione per gestione iscritti (prossimamente)
+* ✅ Pannello di amministrazione per gestione iscritti
 * ✅ Pronto per le traduzioni (`text-domain: email-marketing-plugin`)
 
 ---
@@ -71,7 +71,7 @@ git push origin v1.1.0
 
 * [x] Raccolta dati form (Nome, Cognome, Email)
 * [x] Invio email automatico post-pubblicazione
-* [ ] Backend per visualizzare iscritti
+* [x] Backend per visualizzare iscritti
 * [ ] Export CSV
 * [ ] Integrazione con servizi esterni (Mailchimp, Sendinblue...)
 * [ ] Invio email personalizzabile da pannello admin
