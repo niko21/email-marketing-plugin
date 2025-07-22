@@ -72,7 +72,7 @@ git push origin v1.1.0
 * [x] Raccolta dati form (Nome, Cognome, Email)
 * [x] Invio email automatico post-pubblicazione
 * [x] Backend per visualizzare iscritti
-* [ ] Export CSV
+* [x] Export CSV
 * [ ] Integrazione con servizi esterni (Mailchimp, Sendinblue...)
 * [ ] Invio email personalizzabile da pannello admin
 * [ ] Supporto per conferma iscrizione double opt-in
