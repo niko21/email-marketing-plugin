@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Email Marketing Plugin
-Description: Un plugin semplice per raccogliere Nome, Cognome ed Email e inviare aggiornamenti sui nuovi post.
+Description: Un semplice plugin WordPress per raccogliere Nome, Cognome ed Email, e inviare notifiche automatiche agli iscritti ogni volta che pubblichi un nuovo post.
 Version: 3.0
 Author: Nicolò Silanos
 Author URI: https://ns-developer.it
