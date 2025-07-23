@@ -1,0 +1,50 @@
+.email-marketing-form{
+    max-width:600px;
+}
+
+/* campi base */
+.email-marketing-form input[type="text"],
+.email-marketing-form input[type="email"]{
+    border:3px solid #91908F;
+    border-radius:20px;               /* bordo arrotondato */
+    color:#91908F;
+    padding:0.75rem 1rem;
+    width:100%;
+    margin-bottom:15px;
+    box-sizing:border-box;
+    transition:border-color .2s ease;
+}
+/* focus rosso */
+.email-marketing-form input[type="text"]:focus,
+.email-marketing-form input[type="email"]:focus{
+    border-color:#E31E24;
+    outline:none;
+}
+
+/* pulsante */
+.email-marketing-form input[type="submit"]{
+    background:#E31E24;
+    color:#ffffff;
+    border:none;
+    border-radius:20px;               /* bordo arrotondato */
+    padding:0.75rem 2rem;
+    width:100%;                       /* larghezza piena */
+    cursor:pointer;
+    transition:opacity .2s ease;
+}
+.email-marketing-form input[type="submit"]:hover{
+    opacity:.9;
+}
+
+/* INLINE Nome + Cognome */
+.email-marketing-form .flex-inline{
+    display:flex;
+    gap:4%;
+}
+.email-marketing-form .flex-inline .field{
+    flex:1 1 48%;
+}
+.email-marketing-form .flex-inline label{
+    display:block;
+    margin-bottom:4px;
+}
