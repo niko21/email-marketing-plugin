@@ -14,6 +14,8 @@ require_once plugin_dir_path(__FILE__) . 'includes/admin-interface.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-subscribers.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-form.php';
 require_once plugin_dir_path(__FILE__) . 'includes/email-form-handler.php';
+require_once plugin_dir_path(__FILE__) . 'includes/email-confirm-handler.php';
+
 
 register_activation_hook(__FILE__, 'email_marketing_create_tables');
 
