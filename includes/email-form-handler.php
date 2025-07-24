@@ -1,8 +1,8 @@
 <?php
-
 add_action('init', 'handle_email_form_submission');
 
-function handle_email_form_submission() {
+function handle_email_form_submission()
+{
     if (!isset($_POST['email_form_submit']) || !isset($_POST['form_id'])) return;
 
     if (
@@ -35,19 +35,32 @@ function handle_email_form_submission() {
         'data_iscrizione' => current_time('mysql')
     ]));
 
-    // === Invio automatico email di benvenuto ===
+    // Email di benvenuto (già presente)
     if (!empty($dati['email'])) {
-        $to = sanitize_email($dati['email']);
-        $subject = 'Benvenuto nella nostra newsletter di Maia Car!';
-
+        $to      = sanitize_email($dati['email']);
+        $subject = 'Benvenuto nella nostra newsletter!';
         $message = '<html><body>';
         $message .= '<h2>Ciao ' . esc_html($dati['nome'] ?? '') . '!</h2>';
-        $message .= '<p>Grazie per esserti iscritto alla nostra newsletter. Sarai aggiornato con tutte le nostre novità!</p>';
-        $message .= '<p>A presto,<br>Il team di maiacar.it</p>';
+        $message .= '<p>Grazie per esserti iscritto alla nostra newsletter. Sarai aggiornato con tutte le novità!</p>';
+        $message .= '<p>A presto,<br>Il team di ns-developer.it</p>';
         $message .= '</body></html>';
-
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-
+        $headers = ['Content-Type: text/html; charset=UTF-8'];
         wp_mail($to, $subject, $message, $headers);
     }
+
+    // ✅ Redirect con messaggio di conferma
+    // Usa l'URL corrente se il referer non è disponibile (alcuni browser lo bloccano)
+    $current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $ref        = wp_get_referer();
+    $base       = $ref ? $ref : $current_url;
+
+    // Pulisce eventuale output buffer prima del redirect
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+
+    // Aggiunge/emenda i parametri di conferma
+    $redirect = add_query_arg(['em_success' => 1, 'form_id' => $form_id], $base);
+    wp_safe_redirect($redirect);
+    exit;
 }
