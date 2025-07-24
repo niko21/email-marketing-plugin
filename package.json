@@ -1,6 +1,6 @@
 {
   "name": "email-marketing-plugin",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Plugin WordPress per raccogliere Nome, Cognome ed Email e inviare notifiche automatiche agli iscritti sui nuovi post.",
   "scripts": {
     "release": "bash scripts/release.sh"

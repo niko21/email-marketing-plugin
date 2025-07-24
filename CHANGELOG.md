@@ -35,3 +35,15 @@
 - Aggiornamento descrizione del plugin Email Marketing Plugin
 - Fix esportazione CSV iscritti e download
 - Fix esportazione CSV iscritti
+## [3.1.5] - 2025-07-24
+### Cambiamenti recenti
+- Sviluppo funzione conferma iscrizione tramite conferma link
+- Rilascia versione 3.1.4
+- Aggiunto messaggio di conferma registrazione newsletter
+- Rilascia versione 3.1.3
+- Inserito stile al form newsletter
+- Sviluppato funzione elimina modulo da elenco Iscritti
+- Rilascia versione 3.1.2
+- Sviluppato funzione elimina iscritto da pannello WP
+- Sviluppato invio email di benvenuto alla newsletter
+- Aggiornamento descrizione del plugin Email Marketing Plugin
